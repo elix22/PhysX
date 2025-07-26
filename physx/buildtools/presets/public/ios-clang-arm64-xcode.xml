@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="ios-clang-arm64-xcode" comment="iOS ARM64 (device) Xcode PhysX SDK settings - no snippets">
+  <platform targetPlatform="iosArm64" compiler="xcode" generator="Xcode" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_BUILDSNIPPETS" value="False" comment="Disable snippets (GLUT not available on iOS)" />
+    <cmakeSwitch name="PX_BUILDPVDRUNTIME" value="True" comment="Generate the OmniPVD project" />
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs (required for iOS)" />    
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/ios-clang-arm64-xcode/PhysX" comment="Install path relative to PhysX SDK root" />
+    <cmakeParam name="CMAKE_SYSTEM_NAME" value="iOS" comment="Target iOS system" />
+    <cmakeParam name="CMAKE_OSX_ARCHITECTURES" value="arm64" comment="Target ARM64 architecture (iOS devices)" />
+    <cmakeParam name="CMAKE_OSX_DEPLOYMENT_TARGET" value="12.0" comment="Minimum iOS version (iOS 12.0+)" />
+    <cmakeParam name="CMAKE_OSX_SYSROOT" value="iphoneos" comment="Use iPhone OS SDK" />
+    <cmakeParam name="CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH" value="NO" comment="Build for all architectures" />
+    <cmakeParam name="CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS" value="arm64" comment="Valid architectures for iOS device" />
+    <cmakeParam name="CMAKE_XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY" value="1,2" comment="iPhone and iPad" />
+    <cmakeParam name="CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY" value="iPhone Developer" comment="Code signing identity" />
+    <cmakeParam name="CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM" value="" comment="Development team (set this to your team ID)" />
+  </CMakeParams>
+</preset>

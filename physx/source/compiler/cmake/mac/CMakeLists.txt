@@ -24,6 +24,10 @@
 ##
 ## Copyright (c) 2008-2025 NVIDIA Corporation. All rights reserved.
 
+# Set the output library directory to ensure libraries are placed in bin/ folder
+SET(PX_OUTPUT_LIB_DIR ${PHYSX_ROOT_DIR} CACHE INTERNAL "Output directory for libraries")
+SET(PX_OUTPUT_BIN_DIR ${PHYSX_ROOT_DIR} CACHE INTERNAL "Output directory for binaries")
+
 STRING(TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE_LOWERCASE)
 
 #TODO: Fix warnings

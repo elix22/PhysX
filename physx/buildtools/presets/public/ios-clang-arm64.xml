@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="ios-clang-arm64" comment="iOS ARM64 (device) clang PhysX SDK settings - no snippets">
+  <platform targetPlatform="iosArm64" compiler="clang" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_BUILDSNIPPETS" value="False" comment="Disable snippets (GLUT not available on iOS)" />
+    <cmakeSwitch name="PX_BUILDPVDRUNTIME" value="True" comment="Generate the OmniPVD project" />
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs (required for iOS)" />    
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/ios-clang-arm64/PhysX" comment="Install path relative to PhysX SDK root" />
+    <cmakeParam name="CMAKE_SYSTEM_NAME" value="iOS" comment="Target iOS system" />
+    <cmakeParam name="CMAKE_OSX_ARCHITECTURES" value="arm64" comment="Target ARM64 architecture (iOS devices)" />
+    <cmakeParam name="CMAKE_OSX_DEPLOYMENT_TARGET" value="12.0" comment="Minimum iOS version (iOS 12.0+)" />
+    <cmakeParam name="CMAKE_OSX_SYSROOT" value="iphoneos" comment="Use iPhone OS SDK" />
+    <cmakeParam name="CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH" value="NO" comment="Build for all architectures" />
+    <cmakeParam name="CMAKE_XCODE_ATTRIBUTE_VALID_ARCHS" value="arm64" comment="Valid architectures for iOS device" />
+  </CMakeParams>
+</preset>

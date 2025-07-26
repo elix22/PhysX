@@ -163,6 +163,12 @@ class CMakePreset:
             return False
         elif self.targetPlatform == 'macArm64':
             return False
+        elif self.targetPlatform == 'ios64':
+            return False
+        elif self.targetPlatform == 'iosArm64':
+            return False
+        elif self.targetPlatform == 'iosSimulator':
+            return False
         elif self.compiler == 'x86_64-w64-mingw32-g++':
             return False
         return True
@@ -250,8 +256,8 @@ class CMakePreset:
         # mac
         elif self.compiler == 'xcode':
             outString = outString + '-G Xcode'
-        # Linux and macOS
-        elif self.targetPlatform in ['linux', 'linuxAarch64', 'mac64', 'macArm64']:
+        # Linux, macOS, and iOS
+        elif self.targetPlatform in ['linux', 'linuxAarch64', 'mac64', 'macArm64', 'ios64', 'iosArm64', 'iosSimulator']:
             if self.generator is not None and self.generator == 'ninja':
                 outString = outString + '-G \"Ninja\"'
                 outString = outString + ' -DCMAKE_MAKE_PROGRAM=' + os.environ['PM_ninja_PATH'] + '/ninja'
@@ -320,6 +326,18 @@ class CMakePreset:
         elif self.targetPlatform == 'macArm64':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=mac'
             outString = outString + ' -DPX_OUTPUT_ARCH=arm'
+            return outString
+        elif self.targetPlatform == 'ios64':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=ios'
+            outString = outString + ' -DPX_OUTPUT_ARCH=x86'
+            return outString
+        elif self.targetPlatform == 'iosArm64':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=ios'
+            outString = outString + ' -DPX_OUTPUT_ARCH=arm'
+            return outString
+        elif self.targetPlatform == 'iosSimulator':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=ios'
+            outString = outString + ' -DPX_OUTPUT_ARCH=simulator'
             return outString
         return ''
 

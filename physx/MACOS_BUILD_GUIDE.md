@@ -204,3 +204,87 @@ Check the correct output directory for your architecture:
 
 ### OpenGL Deprecation Warnings
 OpenGL is deprecated on macOS but still functional. The warnings are expected and do not affect functionality.
+
+## iOS Build Presets
+
+PhysX now includes iOS build support with dedicated presets that exclude snippets (since GLUT is not available on iOS) and properly target iOS platforms.
+
+### iOS Device (ARM64) Presets
+
+#### `ios-clang-arm64`
+- **Architecture**: ARM64 (iOS device)
+- **Generator**: Unix Makefiles
+- **Snippets**: ❌ Disabled (GLUT not available on iOS)
+- **Target**: iOS 12.0+
+- **Use case**: iOS device builds
+- **Command**: `./generate_projects.sh ios-clang-arm64`
+- **Output**: `bin/ios.arm64_device_64/` (static libraries)
+
+#### `ios-clang-arm64-xcode`
+- **Architecture**: ARM64 (iOS device)
+- **Generator**: Xcode
+- **Snippets**: ❌ Disabled (GLUT not available on iOS)
+- **Target**: iOS 12.0+
+- **Use case**: iOS development and debugging in Xcode
+- **Command**: `./generate_projects.sh ios-clang-arm64-xcode`
+- **Xcode Project**: `compiler/ios-clang-arm64-xcode-debug/PhysXSDK.xcodeproj`
+
+### iOS Simulator Presets
+
+#### `ios-clang-x86_64-simulator`
+- **Architecture**: x86_64 (iOS Simulator on Intel Macs)
+- **Generator**: Unix Makefiles
+- **Snippets**: ❌ Disabled (GLUT not available on iOS)
+- **Target**: iOS 12.0+
+- **Use case**: iOS Simulator builds on Intel Macs
+- **Command**: `./generate_projects.sh ios-clang-x86_64-simulator`
+- **Output**: `bin/ios.x86_64_simulator_64/`
+
+#### `ios-clang-arm64-simulator`
+- **Architecture**: ARM64 (iOS Simulator on Apple Silicon)
+- **Generator**: Unix Makefiles
+- **Snippets**: ❌ Disabled (GLUT not available on iOS)
+- **Target**: iOS 14.0+ (ARM64 simulator support)
+- **Use case**: iOS Simulator builds on Apple Silicon Macs
+- **Command**: `./generate_projects.sh ios-clang-arm64-simulator`
+- **Output**: `bin/ios.arm64_simulator_64/`
+
+#### `ios-clang-simulator-xcode`
+- **Architecture**: Universal (x86_64 + ARM64 simulator)
+- **Generator**: Xcode
+- **Snippets**: ❌ Disabled (GLUT not available on iOS)
+- **Target**: iOS 12.0+
+- **Use case**: Universal iOS Simulator development in Xcode
+- **Command**: `./generate_projects.sh ios-clang-simulator-xcode`
+- **Xcode Project**: `compiler/ios-clang-simulator-xcode-debug/PhysXSDK.xcodeproj`
+
+### iOS Build Notes
+
+- **Static Libraries Only**: iOS presets generate static libraries (`.a` files) as required by iOS
+- **No Snippets**: Snippets are disabled because GLUT/OpenGL context creation is not supported on iOS
+- **Minimum iOS Version**: Device presets target iOS 12.0+, ARM64 simulator requires iOS 14.0+
+- **Development Team**: For Xcode presets, set your development team ID in the preset file if needed
+- **Code Signing**: Xcode presets include basic code signing settings that may need customization
+
+### iOS Usage Examples
+
+```bash
+# Build for iOS device (ARM64)
+./generate_projects.sh ios-clang-arm64
+make -C compiler/ios-clang-arm64-release -j8
+
+# Generate Xcode project for iOS development
+./generate_projects.sh ios-clang-arm64-xcode
+open compiler/ios-clang-arm64-xcode-debug/PhysXSDK.xcodeproj
+
+# Build for iOS Simulator (Universal)
+./generate_projects.sh ios-clang-simulator-xcode
+open compiler/ios-clang-simulator-xcode-debug/PhysXSDK.xcodeproj
+
+# Verify iOS libraries were generated with proper directory separation
+ls bin/ios.arm64_device_64/release/libPhysX*.a          # iOS device libraries
+ls bin/ios.x86_64_simulator_64/release/libPhysX*.a      # iOS simulator libraries  
+ls bin/mac.arm64_64/release/libPhysX*.a                 # macOS libraries (separate!)
+```
+
+```
