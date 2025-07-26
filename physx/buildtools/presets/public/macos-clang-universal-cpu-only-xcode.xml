@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="macos-clang-universal-cpu-only-xcode" comment="macOS Universal Binary (x86_64 + ARM64) Xcode preset for debugging">
+	<platform targetPlatform="macArm64" compiler="xcode" />
+	<cmakeGenerator name="Xcode" />
+	<CMakeSwitches>
+		<cmakeSwitch name="PX_BUILDSNIPPETS" value="True" comment="Generate the snippets for debugging" />
+		<cmakeSwitch name="PX_BUILDPVDRUNTIME" value="True" comment="Generate the OmniPVD project" />
+		<cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />
+		<cmakeSwitch name="PX_FLOAT_POINT_PRECISE_MATH" value="False" comment="Disable precise math for better performance" />
+	</CMakeSwitches>
+	<CMakeParams>
+		<cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/macos-clang-universal-cpu-only-xcode/PhysX" comment="Install path relative to PhysX SDK root" />
+		<cmakeParam name="CMAKE_OSX_ARCHITECTURES" value="x86_64;arm64" comment="Universal binary (Intel + Apple Silicon)" />
+		<cmakeParam name="CMAKE_OSX_DEPLOYMENT_TARGET" value="11.0" comment="Minimum macOS version supporting both architectures" />
+		<cmakeParam name="CMAKE_CONFIGURATION_TYPES" value="Debug;Release;Profile;Checked" comment="Build configurations for Xcode" />
+		<cmakeParam name="CMAKE_XCODE_GENERATE_SCHEME" value="ON" comment="Generate Xcode schemes for targets" />
+		<cmakeParam name="CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT" value="dwarf-with-dsym" comment="Debug symbols format" />
+		<cmakeParam name="CMAKE_XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS" value="YES" comment="Generate debugging symbols" />
+	</CMakeParams>
+</preset>

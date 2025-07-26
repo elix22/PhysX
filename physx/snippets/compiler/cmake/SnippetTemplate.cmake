@@ -29,7 +29,12 @@
 #
 
 # Include here after the directories are defined so that the platform specific file can use the variables.
-INCLUDE(${PHYSX_ROOT_DIR}/snippets/${PROJECT_CMAKE_FILES_DIR}/${TARGET_BUILD_PLATFORM}/SnippetTemplate.cmake)
+# On macOS, use mac templates regardless of TARGET_BUILD_PLATFORM setting
+IF(APPLE)
+	INCLUDE(${PHYSX_ROOT_DIR}/snippets/${PROJECT_CMAKE_FILES_DIR}/mac/SnippetTemplate.cmake)
+ELSE()
+	INCLUDE(${PHYSX_ROOT_DIR}/snippets/${PROJECT_CMAKE_FILES_DIR}/${TARGET_BUILD_PLATFORM}/SnippetTemplate.cmake)
+ENDIF()
 
 STRING(TOLOWER ${SNIPPET_NAME} SNIPPET_NAME_LOWER)
 FILE(GLOB SnippetSources ${PHYSX_ROOT_DIR}/snippets/snippet${SNIPPET_NAME_LOWER}/*.cpp)

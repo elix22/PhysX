@@ -29,7 +29,12 @@
 #
 
 # Include here after the directories are defined so that the platform specific file can use the variables.
-INCLUDE(${PHYSX_ROOT_DIR}/snippets/${PROJECT_CMAKE_FILES_DIR}/${TARGET_BUILD_PLATFORM}/SnippetVehicleTemplate.cmake)
+# On macOS, use mac templates regardless of TARGET_BUILD_PLATFORM setting
+IF(APPLE)
+	INCLUDE(${PHYSX_ROOT_DIR}/snippets/${PROJECT_CMAKE_FILES_DIR}/mac/SnippetVehicleTemplate.cmake)
+ELSE()
+	INCLUDE(${PHYSX_ROOT_DIR}/snippets/${PROJECT_CMAKE_FILES_DIR}/${TARGET_BUILD_PLATFORM}/SnippetVehicleTemplate.cmake)
+ENDIF()
 
 IF(NOT PM_RAPIDJSON_PATH_INTERNAL)
 	SET(PM_RAPIDJSON_PATH_INTERNAL $ENV{PM_rapidjson_PATH} CACHE INTERNAL "rapidjson package path")

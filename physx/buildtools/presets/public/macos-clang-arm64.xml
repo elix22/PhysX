@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="macos-clang-arm64" comment="macOS ARM64 (Apple Silicon) clang PhysX SDK general settings">
+  <platform targetPlatform="macArm64" compiler="clang" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_BUILDSNIPPETS" value="True" comment="Generate the snippets (enabled with macOS templates)" />
+    <cmakeSwitch name="PX_BUILDPVDRUNTIME" value="True" comment="Generate the OmniPVD project" />
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />    
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/macos-clang-arm64/PhysX" comment="Install path relative to PhysX SDK root" />
+    <cmakeParam name="CMAKE_OSX_ARCHITECTURES" value="arm64" comment="Target ARM64 architecture (Apple Silicon native)" />
+    <cmakeParam name="CMAKE_OSX_DEPLOYMENT_TARGET" value="11.0" comment="Minimum macOS version (Big Sur - first macOS with Apple Silicon support)" />
+  </CMakeParams>
+</preset>

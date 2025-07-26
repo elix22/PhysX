@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="macos-clang-x86_64" comment="macOS x86_64 clang PhysX SDK general settings">
+  <platform targetPlatform="mac64" compiler="clang" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_BUILDSNIPPETS" value="True" comment="Generate the snippets (enabled with macOS templates)" />
+    <cmakeSwitch name="PX_BUILDPVDRUNTIME" value="True" comment="Generate the OmniPVD project" />
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />    
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/macos-clang-x86_64/PhysX" comment="Install path relative to PhysX SDK root" />
+    <cmakeParam name="CMAKE_OSX_ARCHITECTURES" value="x86_64" comment="Target x86_64 architecture" />
+    <cmakeParam name="CMAKE_OSX_DEPLOYMENT_TARGET" value="10.15" comment="Minimum macOS version (Catalina)" />
+  </CMakeParams>
+</preset>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preset name="macos-clang-universal-cpu-only" comment="macOS Universal Binary (x86_64 + ARM64) clang PhysX SDK general settings (cpu only)">
+  <platform targetPlatform="macArm64" compiler="clang" />
+  <CMakeSwitches>
+    <cmakeSwitch name="PX_BUILDSNIPPETS" value="True" comment="Generate the snippets (now working with OpenGL fixes)" />
+    <cmakeSwitch name="PX_BUILDPVDRUNTIME" value="True" comment="Generate the OmniPVD project" />
+    <cmakeSwitch name="PX_GENERATE_STATIC_LIBRARIES" value="True" comment="Generate static libs" />
+    <cmakeSwitch name="PX_FLOAT_POINT_PRECISE_MATH" value="False" comment="Disable precise math for better performance" />
+  </CMakeSwitches>
+  <CMakeParams>
+    <cmakeParam name="CMAKE_INSTALL_PREFIX" value="install/macos-clang-universal-cpu-only/PhysX" comment="Install path relative to PhysX SDK root" />
+    <cmakeParam name="CMAKE_OSX_ARCHITECTURES" value="x86_64;arm64" comment="Universal binary (Intel + Apple Silicon)" />
+    <cmakeParam name="CMAKE_OSX_DEPLOYMENT_TARGET" value="11.0" comment="Minimum macOS version supporting both architectures" />
+  </CMakeParams>
+</preset>

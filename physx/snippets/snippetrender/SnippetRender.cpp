@@ -460,8 +460,16 @@ static void defaultMouseCallback(int button, int state, int x, int y)
 
 static void defaultKeyboardCallback(unsigned char key, int x, int y)
 {
-	if(key==27)
+	if(key==27) // ESC key
+	{
+#ifdef PX_OSX
+		// On macOS GLUT, we use exit() instead of glutLeaveMainLoop()
+		// This will trigger the atexit handler which calls defaultExitCallback
+		exit(0);
+#else
 		glutLeaveMainLoop();
+#endif
+	}
 
 	if (key == 110) //n
 		gWireFrame = !gWireFrame;
@@ -507,18 +515,44 @@ static void setupDefaultWindow(const char* name, RenderCallback rdcb)
 	gScreenWidth	= INITIAL_SCREEN_WIDTH;
 	gScreenHeight	= INITIAL_SCREEN_HEIGHT;
 
-	gTexter.init();
-	gTexter.setScreenResolution(gScreenWidth, gScreenHeight);
-	gTexter.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-
 	glutInitWindowSize(gScreenWidth, gScreenHeight);
 	glutInitDisplayMode(GLUT_RGB|GLUT_DOUBLE|GLUT_DEPTH);
+
+#ifdef PX_OSX
+	// Position window to ensure it appears on screen (works for both x86_64 and ARM64)
+	glutInitWindowPosition(100, 100);
+#endif
+
 	int mainHandle = glutCreateWindow(name);
+	if(mainHandle <= 0)
+	{
+		fprintf(stderr, "Error: Failed to create GLUT window\n");
+		delete[] namestr;
+		return;
+	}
+
+#ifdef PX_OSX
+	// Ensure window is properly displayed on macOS (both Intel and Apple Silicon)
+	glutSetWindow(mainHandle);
+	glutShowWindow();
+	glutPopWindow();
+	glutPostRedisplay();
+#endif
+
+	// Initialize OpenGL extension loader
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{		
-		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		fprintf(stderr, "Error initializing GLEW: %s\n", glewGetErrorString(err));
 	}
+	
+	// Initialize font renderer after OpenGL context and GLEW are ready
+	// This ensures proper OpenGL state for both Xcode and Unix Makefiles builds
+	gTexter.init();
+	gTexter.setScreenResolution(gScreenWidth, gScreenHeight);
+	gTexter.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+	
+	// Set up GLUT callbacks
 	glutSetWindow(mainHandle);
 	glutReshapeFunc(defaultReshapeCallback);
 	glutIdleFunc(defaultIdleCallback);
@@ -673,8 +707,11 @@ void setupDefault(const char* name, Camera* camera, KeyboardCallback kbcb, Rende
 	setupDefaultRenderState();
 	enableVSync(true);
 
+#ifndef PX_OSX
+	// glutSetOption is not available on macOS GLUT, only on FreeGLUT
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-
+#endif
+	// On macOS, we rely on the ESC key handler and atexit() for cleanup
 
 	gUserExitCB = excb;
 	atexit(defaultExitCallback);
